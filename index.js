@@ -14,6 +14,9 @@ module.exports.register = function(Handlebars, options) {
     }
     var styles_map = _.map(context, function(value, key) {
       var css_property = safeCSSProperty(key);
+      if (!css_property) {
+        return "";
+      }
       var css_value = safeCSSValue(value, css_property);
       if (css_property && css_value) {
         return css_property + ':' + css_value + ';'
