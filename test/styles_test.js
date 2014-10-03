@@ -25,4 +25,10 @@ describe('{{#styles styles}}{{/styles}}', function() {
     var context = {};
     expect(template(context)).to.equal('');
   });
+
+  it ('handles missing context', function() {
+    var source = '{{#styles}}{{/styles}}';
+    var template = Handlebars.compile(source);
+    expect(template()).to.equal('');
+  });
 });

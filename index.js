@@ -8,6 +8,10 @@ module.exports.register = function(Handlebars, options) {
   var opts = options || {};
 
   Handlebars.registerHelper('styles', function(context) {
+    context = context || {};
+    if ( invalidContext(context) ) {
+      return '';
+    }
     var styles_map = _.map(context, function(value, key) {
       var css_property = safeCSSProperty(key);
       var css_value = safeCSSValue(value, css_property);
@@ -43,5 +47,16 @@ module.exports.register = function(Handlebars, options) {
   function urlWrap(value) {
     // TODO Check to see if value is already wrapped in url()
     return 'url(' + value + ')';
+  }
+
+  function invalidContext(context) {
+    // Check to see if no "real" context was passed in.
+    //
+    // If there is no "real" context, this should be the styles helper
+    return (
+      context &&
+      context['name'] === 'styles' &&
+      typeof(context['fn']) === "function"
+    );
   }
 };
